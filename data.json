@@ -1,6 +1,6 @@
 {
  "season": "Fall 2026",
- "updated": "2026-09-24",
+ "updated": "2026-09-25",
  "rulebook": "CBHL_Official_Rulebook.pdf",
  "teams": [
   {
@@ -8,11 +8,11 @@
    "name": "Troy Coleman Elite",
    "color": "#ffffff",
    "base": {
-    "w": 4,
+    "w": 5,
     "l": 0,
     "t": 0,
-    "gf": 31,
-    "ga": 10
+    "gf": 39,
+    "ga": 14
    }
   },
   {
@@ -20,11 +20,11 @@
    "name": "Sloppy Bandits",
    "color": "#38761d",
    "base": {
-    "w": 2,
+    "w": 3,
     "l": 1,
-    "t": 0,
-    "gf": 13,
-    "ga": 5
+    "t": 1,
+    "gf": 23,
+    "ga": 13
    }
   },
   {
@@ -32,11 +32,11 @@
    "name": "Mean Muggin Troy’s",
    "color": "#e02f3b",
    "base": {
-    "w": 1,
-    "l": 1,
+    "w": 2,
+    "l": 2,
     "t": 0,
-    "gf": 16,
-    "ga": 14
+    "gf": 25,
+    "ga": 23
    }
   },
   {
@@ -45,10 +45,10 @@
    "color": "#2b4cf0",
    "base": {
     "w": 1,
-    "l": 3,
+    "l": 4,
     "t": 0,
-    "gf": 22,
-    "ga": 28
+    "gf": 25,
+    "ga": 33
    }
   },
   {
@@ -57,10 +57,10 @@
    "color": "#000000",
    "base": {
     "w": 0,
-    "l": 3,
-    "t": 0,
-    "gf": 6,
-    "ga": 21
+    "l": 4,
+    "t": 1,
+    "gf": 14,
+    "ga": 33
    }
   }
  ],
@@ -378,7 +378,7 @@
   {
    "id": "p1",
    "name": "McCall, Patrick",
-   "g": 11,
+   "g": 14,
    "a": 7,
    "pen": 0,
    "goalie": null
@@ -386,7 +386,7 @@
   {
    "id": "p2",
    "name": "Coleman, Troy",
-   "g": 3,
+   "g": 4,
    "a": 10,
    "pen": 0,
    "goalie": null
@@ -394,16 +394,16 @@
   {
    "id": "p3",
    "name": "Bruno, Luciano",
-   "g": 6,
-   "a": 5,
+   "g": 8,
+   "a": 7,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p4",
    "name": "Harter, Reece",
-   "g": 7,
-   "a": 4,
+   "g": 4,
+   "a": 6,
    "pen": 0,
    "goalie": null
   },
@@ -411,15 +411,15 @@
    "id": "p5",
    "name": "Schepflin, Nick",
    "g": 6,
-   "a": 5,
+   "a": 6,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p6",
    "name": "Brown, Alex",
-   "g": 7,
-   "a": 2,
+   "g": 11,
+   "a": 0,
    "pen": 0,
    "goalie": null
   },
@@ -434,7 +434,7 @@
   {
    "id": "p8",
    "name": "Micinec, Jakub",
-   "g": 4,
+   "g": 5,
    "a": 3,
    "pen": 0,
    "goalie": null
@@ -462,17 +462,17 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 3,
-    "w": 2,
+    "gp": 5,
+    "w": 3,
     "so": 0,
-    "ga": 10
+    "ga": 18
    }
   },
   {
    "id": "p12",
    "name": "Musser, Jonathan",
    "g": 0,
-   "a": 6,
+   "a": 7,
    "pen": 1,
    "goalie": null
   },
@@ -483,24 +483,24 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 3,
-    "w": 3,
+    "gp": 4,
+    "w": 4,
     "so": 1,
-    "ga": 9
+    "ga": 13
    }
   },
   {
    "id": "p14",
    "name": "Kimbelton, Nolan",
-   "g": 2,
-   "a": 2,
+   "g": 0,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p15",
    "name": "Mitchell, Evan",
-   "g": 2,
+   "g": 6,
    "a": 3,
    "pen": 0,
    "goalie": null
@@ -524,8 +524,8 @@
   {
    "id": "p18",
    "name": "Cook, Robert",
-   "g": 4,
-   "a": 0,
+   "g": 6,
+   "a": 3,
    "pen": 2,
    "goalie": null
   },
@@ -533,16 +533,16 @@
    "id": "p19",
    "name": "Kimbleton, Chad",
    "g": 2,
-   "a": 2,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p20",
    "name": "Pollick, Andy",
-   "g": 2,
+   "g": 3,
    "a": 2,
-   "pen": 0,
+   "pen": 2,
    "goalie": null
   },
   {
@@ -556,8 +556,8 @@
   {
    "id": "p22",
    "name": "Fuleki, Zach",
-   "g": 3,
-   "a": 0,
+   "g": 6,
+   "a": 1,
    "pen": 1,
    "goalie": null
   },
@@ -565,15 +565,15 @@
    "id": "p23",
    "name": "LaRussa, David",
    "g": 3,
-   "a": 0,
+   "a": 1,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p24",
    "name": "Pfister, Roger",
-   "g": 0,
-   "a": 3,
+   "g": 1,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
@@ -581,7 +581,7 @@
    "id": "p25",
    "name": "Ross, Shawn",
    "g": 2,
-   "a": 1,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
@@ -589,7 +589,7 @@
    "id": "p26",
    "name": "While, Alex",
    "g": 0,
-   "a": 3,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
@@ -600,10 +600,10 @@
    "a": 2,
    "pen": 0,
    "goalie": {
-    "gp": 2,
+    "gp": 4,
     "w": 0,
     "so": 0,
-    "ga": 13
+    "ga": 25
    }
   },
   {
@@ -639,7 +639,7 @@
    "id": "p31",
    "name": "Price, Jason",
    "g": 2,
-   "a": 0,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
@@ -654,7 +654,7 @@
   {
    "id": "p33",
    "name": "Eyer, Theodoric",
-   "g": 0,
+   "g": 2,
    "a": 1,
    "pen": 0,
    "goalie": null
@@ -670,7 +670,7 @@
   {
    "id": "p35",
    "name": "Harris, Austin",
-   "g": 0,
+   "g": 2,
    "a": 1,
    "pen": 0,
    "goalie": null
@@ -690,10 +690,10 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 2,
+    "gp": 3,
     "w": 1,
     "so": 0,
-    "ga": 14
+    "ga": 20
    }
   },
   {
@@ -716,7 +716,7 @@
    "id": "p40",
    "name": "Reese, Colton",
    "g": 0,
-   "a": 1,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -732,15 +732,15 @@
    "id": "p42",
    "name": "Williams, Ty",
    "g": 0,
-   "a": 1,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p43",
    "name": "Winhoven, Seth",
-   "g": 1,
-   "a": 0,
+   "g": 3,
+   "a": 1,
    "pen": 0,
    "goalie": null
   },
@@ -748,7 +748,7 @@
    "id": "p44",
    "name": "Antolik, AJ",
    "g": 0,
-   "a": 0,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
@@ -767,10 +767,10 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 3,
+    "gp": 4,
     "w": 0,
     "so": 0,
-    "ga": 30
+    "ga": 34
    }
   },
   {
