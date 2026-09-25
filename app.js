@@ -316,7 +316,7 @@
       '<a class="btn" href="' + esc(data.rulebook || "CBHL_Official_Rulebook.pdf") + '" target="_blank" rel="noopener">Open the Rule Book (PDF)</a></div></div></section>' +
       renderContact() +
       "</main>" +
-      '<footer><div class="wrap">Columbus Ball Hockey League · Est. 2026 · Last updated ' + fmtDay(data.updated, { month: "long", day: "numeric", year: "numeric" }) + "</div></footer>" +
+      '<footer><div class="wrap">Columbus Ball Hockey League · Est. 2026 · <a href="https://www.facebook.com/profile.php?id=61587629577464" target="_blank" rel="noopener">Facebook</a> · <a href="https://www.instagram.com/cbusballhockey/" target="_blank" rel="noopener">Instagram</a> · Last updated ' + fmtDay(data.updated, { month: "long", day: "numeric", year: "numeric" }) + "</div></footer>" +
       ((editing || dirty) ? renderSavebar(dirty) : "");
     app.innerHTML = html;
     observeNav();
