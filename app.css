@@ -200,3 +200,9 @@ body.editing main{padding-bottom:120px}
 .partner-usa img{width:132px;margin:14px 14px 0}
 @media (max-width:760px){.contact-grid{grid-template-columns:1fr}}
 @media (prefers-reduced-motion:reduce){.partner{transition:none}.partner:hover{transform:none}}
+.follow-head{margin:18px 0 8px;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.9rem;color:var(--ink-2)}
+.btn.social{color:#fff}
+.btn.social.fb{background:#1877f2}
+.btn.social.fb:hover{background:#0f63d0}
+.btn.social.ig{background:linear-gradient(45deg,#f09433,#dc2743 50%,#bc1888)}
+.btn.social.ig:hover{filter:brightness(.92)}
