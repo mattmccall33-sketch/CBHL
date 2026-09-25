@@ -327,7 +327,11 @@
     return '<section id="contact"><div class="sec-head"><h2>Contact</h2><p>Questions, sign-ups and subs</p></div>' +
       '<div class="contact-grid"><div class="contact-card"><h3>Get in touch</h3>' +
       "<p>Want to join a team, find a sub, or ask about the rules? Email the league.</p>" +
-      '<div class="contact-actions"><a class="btn" href="mailto:' + esc(email) + '?subject=' + encodeURIComponent("CBHL question") + '">Email the league</a></div></div>' +
+      '<div class="contact-actions"><a class="btn" href="mailto:' + esc(email) + '?subject=' + encodeURIComponent("CBHL question") + '">Email the league</a></div>' +
+      '<h4 class="follow-head">Follow the league</h4><div class="contact-actions">' +
+      '<a class="btn social fb" href="https://www.facebook.com/profile.php?id=61587629577464" target="_blank" rel="noopener">Facebook</a>' +
+      '<a class="btn social ig" href="https://www.instagram.com/cbusballhockey/" target="_blank" rel="noopener">Instagram</a>' +
+      "</div></div>" +
       '<div class="partners"><h3>Ball hockey links</h3><div class="partner-row">' +
       '<a class="partner partner-wide" href="https://thenbhl.com/" target="_blank" rel="noopener"><img src="nbhl.jpg" alt="NBHL: Hockey. In sneakers." width="650" height="158"><span>National Ball Hockey League</span></a>' +
       '<a class="partner partner-usa" href="https://usaballhockey.com/" target="_blank" rel="noopener"><img src="usaballhockey.jpg" alt="USA Ball Hockey" width="88" height="53"><span>USA Ball Hockey</span></a>' +
