@@ -43,32 +43,32 @@
     "champions": {
      "name": "Black",
      "caption": "",
-     "photo": "photos/IMG_2474.jpeg"
+     "photo": "photos/summer2026Winner.jpeg"
     },
     "runnerup": {
      "name": "Green",
      "caption": "",
-     "photo": ""
+     "photo": "photos/summer2026Second.jpeg"
     },
     "mvp": {
      "name": "Dylan Kimbelton",
      "caption": "",
-     "photo": ""
+     "photo": "photos/summer2026MVP.jpeg"
     },
     "defense": {
      "name": "David Moyer",
      "caption": "",
-     "photo": ""
+     "photo": "photos/summer2026MVD.jpeg"
     },
     "forward": {
      "name": "Quinn Sawyer",
      "caption": "",
-     "photo": ""
+     "photo": "photos/summer2026MVF.jpeg"
     },
     "goalie": {
      "name": "Bobby Hisey",
      "caption": "",
-     "photo": ""
+     "photo": "photos/summer2026MVG.jpeg"
     }
    }
   },
@@ -79,32 +79,32 @@
     "champions": {
      "name": "Black",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026Winner.jpeg"
     },
     "runnerup": {
      "name": "Blue",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026Second.jpeg"
     },
     "mvp": {
      "name": "Patrick McCall",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026MVP.jpeg"
     },
     "defense": {
      "name": "David Moyer",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026MVD.jpeg"
     },
     "forward": {
      "name": "Dylan Kimbelton",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026MVF.jpeg"
     },
     "goalie": {
      "name": "Bobby Hisey",
      "caption": "",
-     "photo": ""
+     "photo": "photos/spring2026MVG.jpeg"
     }
    }
   }
