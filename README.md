@@ -9,7 +9,10 @@ The league site: schedule, standings, stats and the official rule book.
 | `index.html` | The page |
 | `app.js`, `app.css` | How the page works and looks. You don't need to touch these. |
 | `data.json` | **All league data**: teams, schedule, scores and player stats. This is the only file that changes during the season. |
-| `cbhl-logo.png` | League logo |
+| `about.html` | About page |
+| `winners.html`, `winners.js`, `winners.json` | Past Winners page and its data |
+| `photos/` | Winner photos |
+| `cbhl-logo.png`, `nbhl.jpg`, `usaballhockey.jpg` | Logos |
 | `CBHL_Official_Rulebook.pdf` | Rule book linked from the site |
 
 ## Put the site online (one time)
@@ -32,3 +35,10 @@ Your edits are kept in the browser tab until you download them. If the tab reloa
 ## Change the rule book
 
 Upload a new PDF with the same name, `CBHL_Official_Rulebook.pdf`, the same way you upload `data.json`.
+
+## Update past winners
+
+1. Open `winners.html#admin` on your site and click **Edit**.
+2. Use **Add a season** for a new session (for example "Spring 2027"). Type the winners' names and pick a photo for each award.
+3. Click **Download winners.json** and upload it to the main page of your repository, replacing the old one.
+4. Open the **photos** folder in your repository, click **Add file → Upload files**, and upload the photos you picked. The file names must match the "Photo file on GitHub" box on the edit screen.

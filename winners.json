@@ -1,0 +1,112 @@
+{
+ "seasons": [
+  {
+   "id": "fall-2026",
+   "title": "Fall 2026",
+   "awards": {
+    "champions": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "runnerup": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "mvp": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "defense": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "forward": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "goalie": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    }
+   }
+  },
+  {
+   "id": "summer-2026",
+   "title": "Summer 2026",
+   "awards": {
+    "champions": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "runnerup": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "mvp": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "defense": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "forward": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "goalie": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    }
+   }
+  },
+  {
+   "id": "spring-2026",
+   "title": "Spring 2026",
+   "awards": {
+    "champions": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "runnerup": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "mvp": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "defense": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "forward": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    },
+    "goalie": {
+     "name": "",
+     "caption": "",
+     "photo": ""
+    }
+   }
+  }
+ ]
+}

@@ -290,13 +290,13 @@
       '<p class="eyebrow">Est. 2026 · ' + esc(data.season || "") + "</p><h1>Columbus Ball<br>Hockey <span>League</span></h1>" +
       '<p class="mast-meta">Tuesday &amp; Thursday nights · 6:00 and 7:00 puck drops · ' + data.teams.length + " teams</p></div></div></header>" +
       '<nav class="tabs" aria-label="Sections"><div class="bar"><ul>' +
-      '<li><a href="#schedule">Schedule</a></li><li><a href="#standings">Standings</a></li><li><a href="#stats">Stats</a></li><li><a href="#rules">Rule Book</a></li><li><a href="#contact">Contact</a></li></ul>' +
+      '<li><a href="#schedule">Schedule</a></li><li><a href="#standings">Standings</a></li><li><a href="#stats">Stats</a></li><li><a href="#rules">Rule Book</a></li><li><a href="#contact">Contact</a></li><li class="nav-sep" aria-hidden="true"></li><li><a href="about.html">About</a></li><li><a href="winners.html">Past Winners</a></li></ul>' +
       '<button type="button" class="edit-toggle" id="edit-toggle" data-act="toggle-edit" aria-pressed="' + editing + '"' + (canWrite ? "" : " hidden") + ">" + (editing ? "Done editing" : "Edit") + "</button></div></nav>" +
       '<main class="wrap">' +
       (restoreDraft ? '<div class="restore"><span>You have unsaved edits from earlier in this browser.</span><button type="button" class="btn small" data-act="restore">Restore edits</button><button type="button" class="btn ghost small" data-act="drop-draft">Discard</button></div>' : "") +
       (editing ? (STATIC
         ? '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Download data.json</b>.</li><li>Upload that file to your GitHub repository, replacing the old data.json. The site updates in a minute or two.</li><li>Press <b>Done editing</b> to preview before downloading.</li></ul></div>'
-        : '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Changes stay on your screen until you press <b>Publish changes</b>.</li><li>Publishing updates the page for everyone who opens it.</li><li>Press <b>Done editing</b> to preview before publishing.</li></ul></div>') : renderNext()) +
+        : '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Changes stay on your screen until you press <b>Publish changes</b>.</li><li>Publishing updates the page for everyone who opens it.</li><li>Press <b>Done editing</b> to preview before publishing.</li></ul></div>') : renderFree() + renderNext()) +
       '<section id="schedule"><div class="sec-head"><h2>Schedule</h2><p>' + (editing ? "Edit games and post scores" : "Home team listed second") + "</p></div>" +
       (editing ? adminSchedule() : '<ul class="legend">' + data.teams.map(function (t) { return "<li>" + chip(t.id) + "</li>"; }).join("") + '</ul><div class="weeks">' + renderSchedule() + "</div>") +
       "</section>" +
@@ -320,6 +320,15 @@
       ((editing || dirty) ? renderSavebar(dirty) : "");
     app.innerHTML = html;
     observeNav();
+  }
+
+  function renderFree() {
+    var email = data.contact || "mattmccall33@gmail.com";
+    return '<aside class="free-banner" aria-label="New players"><div class="free-tag"><span>Your first</span><b>Session<br>is free</b></div>' +
+      '<div class="free-copy"><h2>New to ball hockey? Your first session is on us.</h2>' +
+      "<p>All skill levels, ages 16 and up. Bring a stick and running shoes and you’re ready to play.</p>" +
+      '<div class="contact-actions"><a class="btn" href="about.html">Learn more</a>' +
+      '<a class="btn ghost" href="mailto:' + esc(email) + "?subject=" + encodeURIComponent("First free session") + '">Email to join</a></div></div></aside>';
   }
 
   function renderContact() {

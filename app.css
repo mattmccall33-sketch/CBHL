@@ -206,3 +206,62 @@ body.editing main{padding-bottom:120px}
 .btn.social.fb:hover{background:#0f63d0}
 .btn.social.ig{background:linear-gradient(45deg,#f09433,#dc2743 50%,#bc1888)}
 .btn.social.ig:hover{filter:brightness(.92)}
+
+/* nav page links */
+.nav-sep{width:1px;background:rgba(255,255,255,.2);margin:10px 6px}
+
+/* first session free banner */
+.free-banner{margin-top:28px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center;background:var(--surface);border:2px solid var(--red);border-radius:12px;padding:18px 22px;position:relative;overflow:hidden}
+.free-tag{background:var(--red);color:#fff;border-radius:50%;width:132px;height:132px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-family:var(--display);text-transform:uppercase;line-height:1;transform:rotate(-8deg);box-shadow:0 0 0 5px var(--surface),0 0 0 7px var(--red)}
+.free-tag span{font-weight:700;font-size:.9rem;letter-spacing:.1em}
+.free-tag b{font-weight:900;font-size:1.55rem;margin-top:4px}
+.free-copy h2{font-size:clamp(1.5rem,3.4vw,2.1rem);text-transform:uppercase;margin:0 0 6px;line-height:1.02;text-wrap:balance}
+.free-copy p{margin:0 0 14px;color:var(--ink-2);max-width:60ch}
+@media (max-width:620px){.free-banner{grid-template-columns:1fr}.free-tag{width:108px;height:108px}.free-tag b{font-size:1.3rem}}
+
+/* sub pages */
+.page-hero{padding-block:34px 6px}
+.page-hero h2{font-size:clamp(2rem,5vw,3rem)}
+.page-hero p{color:var(--ink-2);max-width:65ch;margin:10px 0 0;font-size:1.05rem}
+.about-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:700px){.about-grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px 22px}
+.card h3{font-family:var(--display);font-weight:900;font-size:1.35rem;text-transform:uppercase;margin:0 0 8px;line-height:1.05}
+.card p{margin:0 0 10px;color:var(--ink-2)}
+.card p:last-child{margin-bottom:0}
+.card ul{margin:0;padding-left:1.1em;color:var(--ink-2)}
+.card li{margin-bottom:4px}
+.card li b,.card p b{color:var(--ink)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:22px}
+.fact{background:var(--navy);color:#fff;border-radius:10px;padding:14px 16px}
+.fact small{display:block;font-family:var(--display);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ffb9bd;font-size:.78rem}
+.fact b{font-family:var(--display);font-weight:900;font-size:1.35rem;text-transform:uppercase;line-height:1.1}
+.gear{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:6px}
+.gear div{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.gear h4{margin:0 0 4px;font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:.85rem}
+.gear .req h4{color:var(--accent)}
+.gear ul{padding-left:1em;margin:0}
+.warn{margin-top:12px;padding:10px 12px;border-radius:8px;background:var(--edit);border:1px solid var(--edit-line);color:var(--ink);font-size:.95rem}
+@media (max-width:620px){.gear{grid-template-columns:1fr}}
+
+/* winners */
+.season{padding-top:40px}
+.award-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.award{background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
+.award .photo{aspect-ratio:4/3;max-width:100%;background:var(--surface-2);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.award .photo img{width:100%;height:100%;object-fit:cover;display:block}
+.award .photo .ph{color:var(--ink-2);font-family:var(--display);font-weight:700;letter-spacing:.1em;text-transform:uppercase;font-size:.85rem;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.8}
+.award .photo .ph svg{width:36px;height:36px}
+.award .meta{padding:12px 14px 14px}
+.award .label{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:.8rem;color:var(--accent)}
+.award .name{font-weight:700;font-size:1.1rem;margin-top:2px}
+.award .name.tba{color:var(--ink-2);font-weight:500;font-style:italic}
+.award .cap{color:var(--ink-2);font-size:.9rem}
+.award.cup{border-color:var(--red);border-width:2px}
+.award .edit-fields{display:grid;gap:6px;margin-top:8px}
+.award .edit-fields input{font:inherit;font-size:.92rem;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%}
+.award .edit-fields label{font-size:.78rem;color:var(--ink-2);display:grid;gap:2px}
+.season-edit{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.season-edit input{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
+@media (max-width:900px){.award-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.award-grid{grid-template-columns:1fr}}
