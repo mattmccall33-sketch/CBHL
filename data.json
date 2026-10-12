@@ -1,6 +1,6 @@
 {
  "season": "Fall 2026",
- "updated": "2026-10-02",
+ "updated": "2026-10-12",
  "rulebook": "CBHL_Official_Rulebook.pdf",
  "teams": [
   {
@@ -8,11 +8,11 @@
    "name": "Troy Coleman Elite",
    "color": "#ffffff",
    "base": {
-    "w": 5,
+    "w": 6,
     "l": 1,
     "t": 0,
-    "gf": 43,
-    "ga": 20
+    "gf": 46,
+    "ga": 23
    }
   },
   {
@@ -21,10 +21,10 @@
    "color": "#38761d",
    "base": {
     "w": 4,
-    "l": 1,
+    "l": 2,
     "t": 1,
-    "gf": 29,
-    "ga": 18
+    "gf": 32,
+    "ga": 22
    }
   },
   {
@@ -33,10 +33,10 @@
    "color": "#e02f3b",
    "base": {
     "w": 3,
-    "l": 2,
+    "l": 4,
     "t": 0,
-    "gf": 32,
-    "ga": 27
+    "gf": 38,
+    "ga": 36
    }
   },
   {
@@ -44,11 +44,11 @@
    "name": "Project Blue Light",
    "color": "#2b4cf0",
    "base": {
-    "w": 1,
-    "l": 4,
+    "w": 2,
+    "l": 5,
     "t": 0,
-    "gf": 25,
-    "ga": 33
+    "gf": 30,
+    "ga": 42
    }
   },
   {
@@ -56,11 +56,11 @@
    "name": "Black & Milds",
    "color": "#000000",
    "base": {
-    "w": 0,
+    "w": 2,
     "l": 5,
     "t": 1,
-    "gf": 14,
-    "ga": 47
+    "gf": 25,
+    "ga": 51
    }
   }
  ],
@@ -334,8 +334,8 @@
   {
    "id": "g20",
    "week": 8,
-   "date": "2026-10-13",
-   "time": "7:00",
+   "date": "2026-10-15",
+   "time": "6:00",
    "away": "mmt",
    "home": "sb",
    "ref1": "Matt",
@@ -372,6 +372,34 @@
    "hs": null,
    "final": false,
    "inBase": false
+  },
+  {
+   "id": "gmv5osdljnm5",
+   "week": 9,
+   "date": "2026-10-22",
+   "time": "",
+   "away": "",
+   "home": "",
+   "ref1": "",
+   "ref2": "",
+   "as": null,
+   "hs": null,
+   "final": false,
+   "inBase": false
+  },
+  {
+   "id": "gmv5osnnu47r",
+   "week": 10,
+   "date": "2026-10-29",
+   "time": "",
+   "away": "",
+   "home": "",
+   "ref1": "",
+   "ref2": "",
+   "as": null,
+   "hs": null,
+   "final": false,
+   "inBase": false
   }
  ],
  "players": [
@@ -379,7 +407,7 @@
    "id": "p1",
    "name": "McCall, Patrick",
    "g": 17,
-   "a": 9,
+   "a": 11,
    "pen": 0,
    "goalie": null
   },
@@ -395,14 +423,14 @@
    "id": "p3",
    "name": "Bruno, Luciano",
    "g": 8,
-   "a": 7,
+   "a": 8,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p4",
    "name": "Harter, Reece",
-   "g": 4,
+   "g": 5,
    "a": 6,
    "pen": 0,
    "goalie": null
@@ -410,7 +438,7 @@
   {
    "id": "p5",
    "name": "Schepflin, Nick",
-   "g": 6,
+   "g": 7,
    "a": 6,
    "pen": 0,
    "goalie": null
@@ -426,7 +454,7 @@
   {
    "id": "p7",
    "name": "Schepflin, Alexander",
-   "g": 7,
+   "g": 9,
    "a": 2,
    "pen": 0,
    "goalie": null
@@ -442,8 +470,8 @@
   {
    "id": "p9",
    "name": "Moyer, David",
-   "g": 5,
-   "a": 5,
+   "g": 8,
+   "a": 6,
    "pen": 0,
    "goalie": null
   },
@@ -462,10 +490,10 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 6,
+    "gp": 7,
     "w": 4,
     "so": 0,
-    "ga": 23
+    "ga": 27
    }
   },
   {
@@ -483,16 +511,16 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 5,
-    "w": 4,
+    "gp": 6,
+    "w": 5,
     "so": 1,
-    "ga": 19
+    "ga": 21
    }
   },
   {
    "id": "p14",
    "name": "Kimbelton, Nolan",
-   "g": 1,
+   "g": 3,
    "a": 5,
    "pen": 0,
    "goalie": null
@@ -500,8 +528,8 @@
   {
    "id": "p15",
    "name": "Mitchell, Evan",
-   "g": 8,
-   "a": 4,
+   "g": 9,
+   "a": 6,
    "pen": 0,
    "goalie": null
   },
@@ -516,8 +544,8 @@
   {
    "id": "p17",
    "name": "Wilson, Caleb",
-   "g": 4,
-   "a": 1,
+   "g": 6,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -525,7 +553,7 @@
    "id": "p18",
    "name": "Cook, Robert",
    "g": 6,
-   "a": 6,
+   "a": 7,
    "pen": 2,
    "goalie": null
   },
@@ -540,9 +568,9 @@
   {
    "id": "p20",
    "name": "Pollick, Andy",
-   "g": 3,
-   "a": 2,
-   "pen": 2,
+   "g": 6,
+   "a": 3,
+   "pen": 3,
    "goalie": null
   },
   {
@@ -564,8 +592,8 @@
   {
    "id": "p23",
    "name": "LaRussa, David",
-   "g": 3,
-   "a": 1,
+   "g": 5,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -573,14 +601,14 @@
    "id": "p24",
    "name": "Pfister, Roger",
    "g": 1,
-   "a": 4,
+   "a": 5,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p25",
    "name": "Ross, Shawn",
-   "g": 2,
+   "g": 4,
    "a": 4,
    "pen": 0,
    "goalie": null
@@ -588,7 +616,7 @@
   {
    "id": "p26",
    "name": "While, Alex",
-   "g": 1,
+   "g": 2,
    "a": 4,
    "pen": 1,
    "goalie": null
@@ -600,17 +628,17 @@
    "a": 3,
    "pen": 0,
    "goalie": {
-    "gp": 5,
-    "w": 0,
+    "gp": 7,
+    "w": 2,
     "so": 0,
-    "ga": 32
+    "ga": 36
    }
   },
   {
    "id": "p28",
    "name": "Kimbelton, Ryan",
    "g": 2,
-   "a": 1,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
@@ -630,8 +658,8 @@
   {
    "id": "p30",
    "name": "McKee, Kyle",
-   "g": 0,
-   "a": 2,
+   "g": 3,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -654,16 +682,16 @@
   {
    "id": "p33",
    "name": "Eyer, Theodoric",
-   "g": 2,
-   "a": 1,
+   "g": 3,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
   {
    "id": "p34",
    "name": "Giggard, Michael",
-   "g": 0,
-   "a": 1,
+   "g": 1,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
@@ -678,8 +706,8 @@
   {
    "id": "p36",
    "name": "LaRussa, Zac",
-   "g": 0,
-   "a": 1,
+   "g": 1,
+   "a": 2,
    "pen": 0,
    "goalie": null
   },
@@ -716,7 +744,7 @@
    "id": "p40",
    "name": "Reese, Colton",
    "g": 0,
-   "a": 3,
+   "a": 4,
    "pen": 0,
    "goalie": null
   },
@@ -724,7 +752,7 @@
    "id": "p41",
    "name": "Slick, Jon",
    "g": 1,
-   "a": 0,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -732,7 +760,7 @@
    "id": "p42",
    "name": "Williams, Ty",
    "g": 0,
-   "a": 2,
+   "a": 3,
    "pen": 0,
    "goalie": null
   },
@@ -767,17 +795,17 @@
    "a": 0,
    "pen": 0,
    "goalie": {
-    "gp": 4,
-    "w": 0,
+    "gp": 6,
+    "w": 1,
     "so": 0,
-    "ga": 34
+    "ga": 43
    }
   },
   {
    "id": "p47",
    "name": "Revall, Scott",
    "g": 0,
-   "a": 0,
+   "a": 1,
    "pen": 0,
    "goalie": null
   },
