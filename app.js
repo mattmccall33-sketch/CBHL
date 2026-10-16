@@ -14,6 +14,7 @@
   var statsView = "skaters";
   var sortState = { skaters: { key: "pts", dir: -1 }, goalies: { key: "gaa", dir: 1 } };
   var searchTerm = "";
+  var msg = { subject: "CBHL update", body: "", emails: [], file: "", note: "" };
   var DRAFT_KEY = "cbhl-draft-v1";
   var app = document.getElementById("app");
   var TODAY = dayKey(new Date());
@@ -290,12 +291,12 @@
       '<p class="eyebrow">Est. 2026 · ' + esc(data.season || "") + "</p><h1>Columbus Ball<br>Hockey <span>League</span></h1>" +
       '<p class="mast-meta">Tuesday &amp; Thursday nights · 6:00 and 7:00 puck drops · ' + data.teams.length + " teams</p></div></div></header>" +
       '<nav class="tabs" aria-label="Sections"><div class="bar"><ul>' +
-      '<li><a href="#schedule">Schedule</a></li><li><a href="#standings">Standings</a></li><li><a href="#stats">Stats</a></li><li><a href="#rules">Rule Book</a></li><li><a href="#contact">Contact</a></li><li class="nav-sep" aria-hidden="true"></li><li><a href="about.html">About</a></li><li><a href="winners.html">Past Winners</a></li></ul>' +
+      '<li><a href="#schedule">Schedule</a></li><li><a href="#standings">Standings</a></li><li><a href="#stats">Stats</a></li><li><a href="#rules">Rule Book</a></li><li><a href="#contact">Contact</a></li><li class="nav-sep" aria-hidden="true"></li><li><a href="about.html">About</a></li><li><a href="winners.html">Past Winners</a></li><li><a href="whatsapp.html">WhatsApp</a></li></ul>' +
       '<button type="button" class="edit-toggle" id="edit-toggle" data-act="toggle-edit" aria-pressed="' + editing + '"' + (canWrite ? "" : " hidden") + ">" + (editing ? "Done editing" : "Edit") + "</button></div></nav>" +
       '<main class="wrap">' +
       (restoreDraft ? '<div class="restore"><span>You have unsaved edits from earlier in this browser.</span><button type="button" class="btn small" data-act="restore">Restore edits</button><button type="button" class="btn ghost small" data-act="drop-draft">Discard</button></div>' : "") +
       (editing ? (STATIC
-        ? '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Download data.json</b>.</li><li>Upload that file to your GitHub repository, replacing the old data.json. The site updates in a minute or two.</li><li>Press <b>Done editing</b> to preview before downloading.</li></ul></div>'
+        ? '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Download data.json</b>.</li><li>Upload that file to your GitHub repository, replacing the old data.json. The site updates in a minute or two.</li><li>Press <b>Done editing</b> to preview before downloading.</li></ul></div>' + renderMessenger()
         : '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Changes stay on your screen until you press <b>Publish changes</b>.</li><li>Publishing updates the page for everyone who opens it.</li><li>Press <b>Done editing</b> to preview before publishing.</li></ul></div>') : renderFree() + renderNext()) +
       '<section id="schedule"><div class="sec-head"><h2>Schedule</h2><p>' + (editing ? "Edit games and post scores" : "Home team listed second") + "</p></div>" +
       (editing ? adminSchedule() : '<ul class="legend">' + data.teams.map(function (t) { return "<li>" + chip(t.id) + "</li>"; }).join("") + '</ul><div class="weeks">' + renderSchedule() + "</div>") +
@@ -322,6 +323,68 @@
     observeNav();
   }
 
+  /* ---------------- message players ---------------- */
+  var MAILTO_MAX = 1900; // keep each email link short enough for every mail app
+  function emailBatches() {
+    var batches = [], cur = [];
+    var base = "mailto:?subject=" + encodeURIComponent(msg.subject) + "&body=" + encodeURIComponent(msg.body) + "&bcc=";
+    msg.emails.forEach(function (em) {
+      var next = cur.concat(em);
+      if (cur.length && (base + next.join(",")).length > MAILTO_MAX) { batches.push(cur); cur = [em]; }
+      else cur = next;
+    });
+    if (cur.length) batches.push(cur);
+    return batches;
+  }
+  function renderMessenger() {
+    var n = msg.emails.length, batches = n ? emailBatches() : [];
+    var emailBtns = !n
+      ? '<p class="hint">Load your contacts file to email players.</p>'
+      : batches.map(function (b, i) {
+          return '<button type="button" class="btn' + (i ? " ghost" : "") + '" data-act="msg-email" data-batch="' + i + '">' +
+            (batches.length > 1 ? "Email group " + (i + 1) + " of " + batches.length + " (" + b.length + ")" : "Email everyone (" + n + ")") + "</button>";
+        }).join("") + '<button type="button" class="btn ghost small" data-act="msg-copy-emails">Copy all addresses</button>';
+    return '<section id="message" class="msg-panel"><div class="sec-head"><h2>Message players</h2><p>Sends from your own WhatsApp and email</p></div>' +
+      '<div class="card"><div class="msg-grid">' +
+      '<label for="msg-subject">Email subject</label><input id="msg-subject" class="msg-input" value="' + esc(msg.subject) + '">' +
+      '<label for="msg-body">Message</label><textarea id="msg-body" class="msg-input" rows="5" placeholder="e.g. Tonight’s games are moved to 7:00 because of rain.">' + esc(msg.body) + "</textarea></div>" +
+      '<div class="msg-row"><div class="msg-col"><h3>WhatsApp group</h3>' +
+      '<p class="hint">Opens WhatsApp with your message typed in. Pick the league group and press Send.</p>' +
+      '<div class="contact-actions"><button type="button" class="btn social wa" data-act="msg-wa">Open in WhatsApp</button>' +
+      '<button type="button" class="btn ghost small" data-act="msg-copy">Copy message</button></div></div>' +
+      '<div class="msg-col"><h3>Email</h3>' +
+      '<label class="file-pick">Contacts file <input type="file" id="msg-contacts" accept=".csv,.txt,.json,text/*"></label>' +
+      '<p class="hint">' + (msg.file ? "<b>" + n + " email address" + (n === 1 ? "" : "es") + "</b> loaded from " + esc(msg.file) + ". " : "") +
+      "Your contacts file stays on this computer. It is never uploaded to GitHub or the website. Everyone is added as BCC so players can’t see each other’s addresses.</p>" +
+      '<div class="contact-actions">' + emailBtns + "</div></div></div>" +
+      (msg.note ? '<p class="note" aria-live="polite">' + esc(msg.note) + "</p>" : "") +
+      "</div></section>";
+  }
+  function openLink(href) {
+    var a = document.createElement("a");
+    a.href = href; a.target = "_blank"; a.rel = "noopener";
+    document.body.appendChild(a); a.click(); a.remove();
+  }
+  function copyText(text, okMsg) {
+    var done = function () { msg.note = okMsg; queueRender(); };
+    var fail = function () { msg.note = "Couldn’t copy automatically. Select the text and copy it by hand."; queueRender(); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fail);
+    else fail();
+  }
+  function loadContacts(file) {
+    var reader = new FileReader();
+    reader.onload = function () {
+      var found = String(reader.result).match(/[A-Za-z0-9._%+'-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}/g) || [];
+      var seen = {}, list = [];
+      found.forEach(function (em) { var k = em.toLowerCase(); if (!seen[k]) { seen[k] = 1; list.push(em); } });
+      msg.emails = list; msg.file = file.name;
+      msg.note = list.length ? "" : "No email addresses found in " + file.name + ".";
+      queueRender();
+    };
+    reader.onerror = function () { msg.note = "Couldn’t read " + file.name + "."; queueRender(); };
+    reader.readAsText(file);
+  }
+
   function renderFree() {
     var email = data.contact || "mattmccall33@gmail.com";
     return '<aside class="free-banner" aria-label="New players"><div class="free-tag"><span>Your first</span><b>Session<br>is free</b></div>' +
@@ -340,6 +403,7 @@
       '<h4 class="follow-head">Follow the league</h4><div class="contact-actions">' +
       '<a class="btn social fb" href="https://www.facebook.com/profile.php?id=61587629577464" target="_blank" rel="noopener">Facebook</a>' +
       '<a class="btn social ig" href="https://www.instagram.com/cbusballhockey/" target="_blank" rel="noopener">Instagram</a>' +
+      '<a class="btn social wa" href="whatsapp.html">WhatsApp group</a>' +
       "</div></div>" +
       '<div class="partners"><h3>Ball hockey links</h3><div class="partner-row">' +
       '<a class="partner partner-wide" href="https://thenbhl.com/" target="_blank" rel="noopener"><img src="nbhl.jpg" alt="NBHL: Hockey. In sneakers." width="650" height="158"><span>National Ball Hockey League</span></a>' +
@@ -404,6 +468,8 @@
   /* ---------------- edits ---------------- */
   function onChange(e) {
     var el = e.target;
+    if (el.id === "msg-contacts") { if (el.files && el.files[0]) loadContacts(el.files[0]); return; }
+    if (el.id === "msg-subject" || el.id === "msg-body") { queueRender(); return; }
     if (!el.dataset || !el.dataset.kind) return;
     var kind = el.dataset.kind, id = el.dataset.id, f = el.dataset.f;
     var val = el.type === "checkbox" ? el.checked : el.value;
@@ -468,6 +534,21 @@
     if (act === "drop-draft") { restoreDraft = null; try { sessionStorage.removeItem(DRAFT_KEY); } catch (x) {} render(); return; }
     if (act === "discard") { data = clone(served); statusMsg = ""; stash(); render(); return; }
     if (act === "publish") { publish(); return; }
+    if (act === "msg-wa") {
+      if (!msg.body.trim()) { msg.note = "Type a message first."; render(); return; }
+      openLink("https://wa.me/?text=" + encodeURIComponent(msg.body));
+      msg.note = "WhatsApp opened. Choose the league group and press Send.";
+      queueRender(); return;
+    }
+    if (act === "msg-email") {
+      if (!msg.body.trim()) { msg.note = "Type a message first."; render(); return; }
+      var batch = emailBatches()[+b.dataset.batch] || [];
+      location.href = "mailto:?subject=" + encodeURIComponent(msg.subject) + "&body=" + encodeURIComponent(msg.body) + "&bcc=" + batch.join(",");
+      msg.note = "Your email app should open with " + batch.length + " BCC address" + (batch.length === 1 ? "" : "es") + ". Check it, then press Send.";
+      queueRender(); return;
+    }
+    if (act === "msg-copy") { copyText(msg.body, "Message copied."); return; }
+    if (act === "msg-copy-emails") { copyText(msg.emails.join(", "), "All " + msg.emails.length + " addresses copied. Paste them into BCC."); return; }
     if (act === "copy-email") {
       var em = b.dataset.email;
       var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy address"; }, 1800); };
@@ -509,6 +590,8 @@
   }
 
   function onInput(e) {
+    if (e.target.id === "msg-subject") { msg.subject = e.target.value; return; }
+    if (e.target.id === "msg-body") { msg.body = e.target.value; return; }
     if (e.target.id === "player-search") {
       searchTerm = e.target.value;
       document.getElementById("stats-body").innerHTML = statsBody();

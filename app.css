@@ -265,3 +265,27 @@ body.editing main{padding-bottom:120px}
 .season-edit input{font:inherit;padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink)}
 @media (max-width:900px){.award-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:520px){.award-grid{grid-template-columns:1fr}}
+
+/* message players */
+.msg-panel{padding-top:28px}
+.msg-grid{display:grid;grid-template-columns:auto 1fr;gap:10px 14px;align-items:start}
+.msg-grid label{font-weight:600;padding-top:8px}
+.msg-input{font:inherit;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+textarea.msg-input{resize:vertical;min-height:7em}
+.msg-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.msg-col h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:1.2rem;margin:0 0 4px}
+.msg-col .hint{margin:4px 0 12px}
+.file-pick{display:grid;gap:4px;font-size:.9rem;color:var(--ink-2);margin-top:6px}
+.file-pick input{font:inherit;font-size:.9rem;color:var(--ink);max-width:100%}
+.btn.social.wa{background:#1f9d55}
+.btn.social.wa:hover{background:#17834a}
+@media (max-width:700px){.msg-grid{grid-template-columns:1fr}.msg-grid label{padding-top:0}.msg-row{grid-template-columns:1fr}}
+
+/* whatsapp page */
+.group-name{display:flex;flex-wrap:wrap;gap:12px 24px;align-items:center;margin-top:18px;border:2px solid #1f9d55}
+.group-name small{display:block;font-family:var(--display);font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-size:.8rem}
+.group-name b{font-family:var(--display);font-weight:900;font-size:2.2rem;line-height:1;color:#1f9d55;user-select:all}
+.group-name p{margin:0;flex:1;min-width:16em}
+ol.steps{margin:0;padding-left:1.4em;display:grid;gap:10px;color:var(--ink-2)}
+ol.steps b{color:var(--ink)}
+#get .hint,#join .hint{margin-top:12px}
