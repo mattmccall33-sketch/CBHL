@@ -1,6 +1,6 @@
 {
  "season": "Fall 2026",
- "updated": "2026-10-16",
+ "updated": "2026-10-27",
  "rulebook": "CBHL_Official_Rulebook.pdf",
  "teams": [
   {
@@ -365,7 +365,7 @@
    "date": "2026-10-27",
    "time": "5:45 pm",
    "away": "tce",
-   "home": "",
+   "home": "pbl",
    "ref1": "",
    "ref2": "",
    "as": null,
@@ -393,7 +393,7 @@
    "date": "2026-10-29",
    "time": "5:45 pm",
    "away": "",
-   "home": "",
+   "home": "mmt",
    "ref1": "",
    "ref2": "",
    "as": null,
