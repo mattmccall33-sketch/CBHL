@@ -5,34 +5,34 @@
    "title": "Fall 2026",
    "awards": {
     "champions": {
-     "name": "",
-     "caption": "",
-     "photo": ""
+     "name": "Mean Muggin Troy's",
+     "caption": "Fattey's Cup",
+     "photo": "photos/fall2026Winner.JPG"
     },
     "runnerup": {
-     "name": "",
-     "caption": "",
-     "photo": ""
+     "name": "Troy Coleman Select",
+     "caption": "Sour Grapes",
+     "photo": "photos/fall2026Second.JPG"
     },
     "mvp": {
-     "name": "",
+     "name": "Patrick McCall",
      "caption": "",
-     "photo": ""
+     "photo": "photos/fall2026MVP.JPG"
     },
     "defense": {
-     "name": "",
+     "name": "Evan Mitchell",
      "caption": "",
-     "photo": ""
+     "photo": "photos/fall2026MVD.JPG"
     },
     "forward": {
-     "name": "",
-     "caption": "",
-     "photo": ""
+     "name": "Dave (Buffalo Dave) Larussa",
+     "caption": "Too lame to get his pic taken",
+     "photo": "photos/fall2026MVF.JPG"
     },
     "goalie": {
-     "name": "",
+     "name": "Doug Fabina",
      "caption": "",
-     "photo": ""
+     "photo": "photos/fall2026MVG.JPG"
     }
    }
   },
