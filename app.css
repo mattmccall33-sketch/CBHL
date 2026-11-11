@@ -289,3 +289,6 @@ textarea.msg-input{resize:vertical;min-height:7em}
 ol.steps{margin:0;padding-left:1.4em;display:grid;gap:10px;color:var(--ink-2)}
 ol.steps b{color:var(--ink)}
 #get .hint,#join .hint{margin-top:12px}
+
+.semi-opt{display:flex;gap:8px;align-items:flex-start;font-size:.85rem;color:var(--ink-2);margin:0 0 12px}
+.semi-opt input{margin-top:3px}

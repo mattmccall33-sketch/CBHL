@@ -14,7 +14,7 @@
   var statsView = "skaters";
   var sortState = { skaters: { key: "pts", dir: -1 }, goalies: { key: "gaa", dir: 1 } };
   var searchTerm = "";
-  var msg = { subject: "CBHL update", body: "", emails: [], file: "", note: "" };
+  var msg = { subject: "CBHL update", body: "", emails: [], file: "", note: "", semi: false };
   var DRAFT_KEY = "cbhl-draft-v1";
   var app = document.getElementById("app");
   var TODAY = dayKey(new Date());
@@ -324,17 +324,22 @@
   }
 
   /* ---------------- message players ---------------- */
-  var MAILTO_MAX = 1900; // keep each email link short enough for every mail app
+  var BCC_MAX = 1800;   // characters of addresses per email; long BCC lists break some mail apps
+  var BODY_WARN = 1500; // messages longer than this may be cut off by some mail apps
   function emailBatches() {
-    var batches = [], cur = [];
-    var base = "mailto:?subject=" + encodeURIComponent(msg.subject) + "&body=" + encodeURIComponent(msg.body) + "&bcc=";
+    // split by the length of the address list only; the message is the same in every email
+    var batches = [], cur = [], len = 0;
     msg.emails.forEach(function (em) {
-      var next = cur.concat(em);
-      if (cur.length && (base + next.join(",")).length > MAILTO_MAX) { batches.push(cur); cur = [em]; }
-      else cur = next;
+      var add = em.length + 1;
+      if (cur.length && len + add > BCC_MAX) { batches.push(cur); cur = []; len = 0; }
+      cur.push(em); len += add;
     });
     if (cur.length) batches.push(cur);
     return batches;
+  }
+  function mailtoFor(batch) {
+    return "mailto:?bcc=" + batch.join(msg.semi ? ";" : ",") +
+      "&subject=" + encodeURIComponent(msg.subject) + "&body=" + encodeURIComponent(msg.body);
   }
   function renderMessenger() {
     var n = msg.emails.length, batches = n ? emailBatches() : [];
@@ -356,6 +361,7 @@
       '<label class="file-pick">Contacts file <input type="file" id="msg-contacts" accept=".csv,.txt,.json,text/*"></label>' +
       '<p class="hint">' + (msg.file ? "<b>" + n + " email address" + (n === 1 ? "" : "es") + "</b> loaded from " + esc(msg.file) + ". " : "") +
       "Your contacts file stays on this computer. It is never uploaded to GitHub or the website. Everyone is added as BCC so players can’t see each other’s addresses.</p>" +
+      '<label class="semi-opt"><input type="checkbox" id="msg-semi"' + (msg.semi ? " checked" : "") + '> Use semicolons between addresses (turn on if Outlook puts everyone in one long address)</label>' +
       '<div class="contact-actions">' + emailBtns + "</div></div></div>" +
       (msg.note ? '<p class="note" aria-live="polite">' + esc(msg.note) + "</p>" : "") +
       "</div></section>";
@@ -468,6 +474,7 @@
   /* ---------------- edits ---------------- */
   function onChange(e) {
     var el = e.target;
+    if (el.id === "msg-semi") { msg.semi = el.checked; queueRender(); return; }
     if (el.id === "msg-contacts") { if (el.files && el.files[0]) loadContacts(el.files[0]); return; }
     if (el.id === "msg-subject" || el.id === "msg-body") { queueRender(); return; }
     if (!el.dataset || !el.dataset.kind) return;
@@ -543,12 +550,13 @@
     if (act === "msg-email") {
       if (!msg.body.trim()) { msg.note = "Type a message first."; render(); return; }
       var batch = emailBatches()[+b.dataset.batch] || [];
-      location.href = "mailto:?subject=" + encodeURIComponent(msg.subject) + "&body=" + encodeURIComponent(msg.body) + "&bcc=" + batch.join(",");
-      msg.note = "Your email app should open with " + batch.length + " BCC address" + (batch.length === 1 ? "" : "es") + ". Check it, then press Send.";
+      location.href = mailtoFor(batch);
+      if (encodeURIComponent(msg.body).length > BODY_WARN) msg.note = "Long message: some email apps cut off long text. If it looks short in the email, use Copy message and paste it in.";
+      if (encodeURIComponent(msg.body).length <= BODY_WARN) msg.note = "Your email app should open with " + batch.length + " BCC address" + (batch.length === 1 ? "" : "es") + ". Check it, then press Send.";
       queueRender(); return;
     }
     if (act === "msg-copy") { copyText(msg.body, "Message copied."); return; }
-    if (act === "msg-copy-emails") { copyText(msg.emails.join(", "), "All " + msg.emails.length + " addresses copied. Paste them into BCC."); return; }
+    if (act === "msg-copy-emails") { copyText(msg.emails.join(msg.semi ? "; " : ", "), "All " + msg.emails.length + " addresses copied. Paste them into BCC."); return; }
     if (act === "copy-email") {
       var em = b.dataset.email;
       var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy address"; }, 1800); };

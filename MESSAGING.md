@@ -63,7 +63,7 @@ You need to load the file each time you open the edit screen. It isn't saved any
    - your subject and message filled in
 3. Check it, then click **Send**.
 
-**If the list is long:** some email apps can't handle very long address lists, so the panel may split them into **Email group 1 of 2**, **Email group 2 of 2**, and so on. Click each button and send each email.
+**If the list is long:** some email apps can't handle very long address lists, so the panel splits them into groups of about 60–70 addresses: **Email group 1 of 3**, **Email group 2 of 3**, and so on. Click each button and send each email.
 
 **Other option:** **Copy all addresses** copies every address, separated by commas. Paste them into the **BCC** field of a new email yourself. This is handy for Gmail in a browser.
 
@@ -100,6 +100,7 @@ Troy Coleman,troy@example.com
 | **Open in WhatsApp** opens a web page instead of the app | Use your phone, or install WhatsApp Desktop on your computer. |
 | TheCBHL isn't in the list when sharing | Search for "TheCBHL" in the share screen. You must be a member of the group. |
 | "No email addresses found" | The file may not be saved as CSV, or the email column is empty. Re-save as CSV and load it again. |
+| Outlook shows all the addresses as one long, broken address | Tick **Use semicolons between addresses** above the email buttons, then click the button again. |
 | **Email everyone** does nothing | Your device has no default email app. Use **Copy all addresses** and paste them into BCC in Gmail or Outlook. |
 | Some people didn't get the email | Check their address in the contacts file and ask them to check spam. Gmail may flag large BCC emails; sending in smaller groups helps. |
 | Message text looks cut off in email | Very long messages can be trimmed by some email apps. Use **Copy message** and paste it into the email instead. |
