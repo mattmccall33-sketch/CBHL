@@ -13,6 +13,9 @@
   var toggle = document.getElementById("edit-toggle");
   var served = null, data = null, editing = false, statusMsg = "";
   var previews = {}; // "seasonId|award" -> object URL for a photo picked but not yet uploaded
+  var pendingFiles = {}; // "seasonId|award" -> File waiting to be uploaded to GitHub
+  var GH = window.CBHLGitHub || null, winnersSha = null, busy = false;
+  function connected() { return !!(GH && GH.ready()); }
 
   function clone(o) { return JSON.parse(JSON.stringify(o)); }
   function esc(s) {
@@ -65,8 +68,12 @@
     if (editing) {
       html += '<div class="admin-intro"><h3>Editing past winners</h3><ul>' +
         "<li>Type names and pick a photo for each award. Photos show here right away as a preview.</li>" +
-        "<li>When you’re done, press <b>Download winners.json</b> and upload it to your GitHub repository.</li>" +
-        "<li>Upload each photo you picked into the <b>photos</b> folder on GitHub, using the same file name shown under “Photo file on GitHub.”</li></ul>" +
+        (connected()
+          ? "<li>When you’re done, press <b>Save to site</b>. Names and photos go straight to GitHub, and everyone sees them in a minute or two.</li></ul>"
+          : "<li>When you’re done, press <b>Download winners.json</b> and upload it to your GitHub repository.</li>" +
+            "<li>Upload each photo you picked into the <b>photos</b> folder on GitHub, using the same file name shown under “Photo file on GitHub.”</li>" +
+            "<li>Connect to GitHub below to save names and photos straight to the site instead.</li></ul>") +
+        '<div id="gh-panel"></div>' +
         '<div class="row-actions"><button type="button" class="btn small" data-act="add-season">Add a season</button></div></div>';
     } else {
       html += '<div class="page-hero"><p>Every session ends with a champion. Here are the teams that lifted the Fattey’s Cup and the players who earned the league’s individual awards.</p></div>';
@@ -85,12 +92,18 @@
       var dirty = isDirty();
       html += '<div class="savebar" role="region" aria-label="Save changes"><div class="inner"><div class="msg" aria-live="polite">' +
         esc(statusMsg || (dirty ? "You have unsaved changes" : "No changes yet")) +
-        "<small>" + (dirty ? "Download winners.json and upload it to GitHub to publish." : "Edit the awards above, then download winners.json.") + "</small></div>" +
-        '<button type="button" class="btn ghost small" data-act="discard"' + (dirty ? "" : " disabled") + ">Discard changes</button>" +
-        '<button type="button" class="btn" data-act="download"' + (dirty ? "" : " disabled") + ">Download winners.json</button></div></div>";
+        "<small>" + (connected()
+          ? (dirty ? "Save to send names and photos to the site. Live in a minute or two." : "Edit the awards above, then save.")
+          : (dirty ? "Download winners.json and upload it to GitHub to publish." : "Edit the awards above, then download winners.json.")) + "</small></div>" +
+        '<button type="button" class="btn ghost small" data-act="discard"' + (dirty && !busy ? "" : " disabled") + ">Discard changes</button>" +
+        (connected()
+          ? '<button type="button" class="btn" data-act="save"' + (dirty && !busy ? "" : " disabled") + ">" + (busy ? "Saving…" : "Save to site") + "</button>"
+          : '<button type="button" class="btn" data-act="download"' + (dirty ? "" : " disabled") + ">Download winners.json</button>") +
+        "</div></div>";
     }
     document.body.classList.toggle("editing", editing || isDirty());
     root.innerHTML = html;
+    if (GH && editing) GH.mountPanel(document.getElementById("gh-panel"), function () { render(); });
     toggle.textContent = editing ? "Done editing" : "Edit";
     toggle.setAttribute("aria-pressed", editing);
   }
@@ -123,16 +136,22 @@
       var file = el.files && el.files[0];
       if (!file) return;
       var a = award(s, el.dataset.k);
-      var name = file.name.replace(/[^A-Za-z0-9._-]+/g, "-");
-      a.photo = "photos/" + name;
       var key = s.id + "|" + el.dataset.k;
       if (previews[key]) URL.revokeObjectURL(previews[key]);
       previews[key] = URL.createObjectURL(file);
-      statusMsg = name !== file.name ? "Photo saved as " + name + ". Rename the file to match before uploading it." : "";
+      if (connected()) {
+        pendingFiles[key] = file;
+        a.photo = "photos/(uploads when you save)";
+        statusMsg = "";
+      } else {
+        var name = file.name.replace(/[^A-Za-z0-9._-]+/g, "-");
+        a.photo = "photos/" + name;
+        statusMsg = name !== file.name ? "Photo saved as " + name + ". Rename the file to match before uploading it." : "";
+      }
     } else {
       var a2 = award(s, el.dataset.k);
       a2[f] = el.value.trim();
-      if (f === "photo") delete previews[s.id + "|" + el.dataset.k];
+      if (f === "photo") { delete previews[s.id + "|" + el.dataset.k]; delete pendingFiles[s.id + "|" + el.dataset.k]; }
     }
     queueRender();
   });
@@ -154,24 +173,78 @@
     if (act === "del-season" && i >= 0) data.seasons.splice(i, 1);
     else if (act === "up" && i > 0) data.seasons.splice(i - 1, 0, data.seasons.splice(i, 1)[0]);
     else if (act === "down" && i >= 0 && i < data.seasons.length - 1) data.seasons.splice(i + 1, 0, data.seasons.splice(i, 1)[0]);
-    else if (act === "discard") { data = clone(served); previews = {}; statusMsg = ""; }
+    else if (act === "discard") { data = clone(served); previews = {}; pendingFiles = {}; statusMsg = ""; }
+    else if (act === "save") { saveToGitHub(); return; }
     else if (act === "download") { download(); return; }
     else return;
     queueRender();
   });
 
-  function download() {
-    // give each season a stable id based on its title before saving
-    var out = clone(data);
-    var seen = {};
+  function finalized() {
+    // give each new season a stable id based on its title before saving
+    var out = clone(data), seen = {}, idMap = {};
     out.seasons.forEach(function (s) {
+      var old = s.id;
       if (/^new-season/.test(s.id)) {
         var base = slug(s.title), id = base, n = 2;
         while (seen[id] || out.seasons.some(function (o) { return o !== s && o.id === id; })) id = base + "-" + n++;
         s.id = id;
       }
+      idMap[old] = s.id;
       seen[s.id] = true;
     });
+    return { out: out, idMap: idMap };
+  }
+  function sameJson(a, b) {
+    try { return JSON.stringify(typeof a === "string" ? JSON.parse(a) : a) === JSON.stringify(b); } catch (e) { return false; }
+  }
+  function saveToGitHub() {
+    if (busy) return;
+    var f = finalized(), out = f.out, idMap = f.idMap;
+    var stamp = Date.now().toString(36), uploads = [];
+    Object.keys(pendingFiles).forEach(function (key) {
+      var parts = key.split("|"), sid = idMap[parts[0]] || parts[0];
+      var season = out.seasons.find(function (x) { return x.id === sid; });
+      if (!season) return; // season was removed
+      var path = "photos/" + sid + "-" + parts[1] + "-" + stamp + ".jpg";
+      season.awards[parts[1]].photo = path;
+      uploads.push({ key: key, newKey: sid + "|" + parts[1], path: path, file: pendingFiles[key] });
+    });
+    busy = true; statusMsg = "Saving to GitHub…"; render();
+    var text = JSON.stringify(out, null, 1) + "\n";
+    GH.getFile("winners.json").then(function (remote) {
+      if (remote && remote.sha !== winnersSha && !sameJson(remote.text, served)) {
+        var e = new Error("changed"); e.code = "conflict"; throw e;
+      }
+      var chain = Promise.resolve(), done = 0;
+      uploads.forEach(function (u) {
+        chain = chain.then(function () {
+          statusMsg = "Uploading photo " + (++done) + " of " + uploads.length + "…"; render();
+          return GH.photoB64(u.file).then(function (b64) { return GH.putB64(u.path, b64, "Add winner photo " + u.path); });
+        });
+      });
+      return chain.then(function () {
+        statusMsg = "Saving names…"; render();
+        return GH.putText("winners.json", text, "Update past winners", remote ? remote.sha : null);
+      });
+    }).then(function (sha) {
+      winnersSha = sha;
+      var kept = {};
+      uploads.forEach(function (u) { if (previews[u.key]) kept[u.newKey] = previews[u.key]; });
+      previews = kept; // keep showing the local photos until GitHub finishes publishing them
+      pendingFiles = {};
+      served = JSON.parse(text); data = clone(served);
+      busy = false;
+      statusMsg = "Saved. Everyone will see the changes in a minute or two.";
+      render();
+    }).catch(function (e) {
+      busy = false;
+      statusMsg = GH.explain(e) + (e && e.code !== "conflict" && uploads.length ? " Your edits are still on this screen, so you can try again." : "");
+      render();
+    });
+  }
+  function download() {
+    var out = finalized().out;
     var blob = new Blob([JSON.stringify(out, null, 1) + "\n"], { type: "application/json" });
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");
@@ -191,8 +264,16 @@
     if (data && isDirty()) { e.preventDefault(); e.returnValue = ""; }
   });
 
-  fetch("winners.json", { cache: "no-store" })
-    .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+  var fromPages = function () {
+    return fetch("winners.json", { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+  };
+  (/admin/i.test(location.hash + location.search) && connected()
+    ? GH.getFile("winners.json").then(function (f) {
+        if (!f) return fromPages();
+        winnersSha = f.sha;
+        return JSON.parse(f.text);
+      }).catch(fromPages)
+    : fromPages())
     .then(function (d) {
       if (!d || !Array.isArray(d.seasons)) d = { seasons: [] };
       served = d; data = clone(d);

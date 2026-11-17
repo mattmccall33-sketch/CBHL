@@ -3,6 +3,8 @@
 
   /* ---------------- state ---------------- */
   var STATIC = !(window.claude && typeof window.claude.use === "function");
+  var GH = window.CBHLGitHub || null;
+  var dataSha = null; // version of data.json on GitHub that this page loaded
   var served = null;
   var data = null;                     // what the page shows (the draft while editing)
   var editing = false;
@@ -296,7 +298,10 @@
       '<main class="wrap">' +
       (restoreDraft ? '<div class="restore"><span>You have unsaved edits from earlier in this browser.</span><button type="button" class="btn small" data-act="restore">Restore edits</button><button type="button" class="btn ghost small" data-act="drop-draft">Discard</button></div>' : "") +
       (editing ? (STATIC
-        ? '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Download data.json</b>.</li><li>Upload that file to your GitHub repository, replacing the old data.json. The site updates in a minute or two.</li><li>Press <b>Done editing</b> to preview before downloading.</li></ul></div>' + renderMessenger()
+        ? ((GH && GH.ready())
+          ? '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Save to site</b>.</li><li>Your changes go straight to GitHub. Everyone sees them in a minute or two.</li><li>Press <b>Done editing</b> to preview before saving.</li></ul></div>'
+          : '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Make your changes below, then press <b>Download data.json</b>.</li><li>Upload that file to your GitHub repository, replacing the old data.json. The site updates in a minute or two.</li><li>Connect to GitHub below to skip the download and save straight to the site.</li></ul></div>')
+          + '<div id="gh-panel"></div>' + renderMessenger()
         : '<div class="admin-intro"><h3>Editing league data</h3><ul><li>Changes stay on your screen until you press <b>Publish changes</b>.</li><li>Publishing updates the page for everyone who opens it.</li><li>Press <b>Done editing</b> to preview before publishing.</li></ul></div>') : renderFree() + renderNext()) +
       '<section id="schedule"><div class="sec-head"><h2>Schedule</h2><p>' + (editing ? "Edit games and post scores" : "Home team listed second") + "</p></div>" +
       (editing ? adminSchedule() : '<ul class="legend">' + data.teams.map(function (t) { return "<li>" + chip(t.id) + "</li>"; }).join("") + '</ul><div class="weeks">' + renderSchedule() + "</div>") +
@@ -321,6 +326,7 @@
       ((editing || dirty) ? renderSavebar(dirty) : "");
     app.innerHTML = html;
     observeNav();
+    if (GH && editing && STATIC) GH.mountPanel(document.getElementById("gh-panel"), function () { render(); });
   }
 
   /* ---------------- message players ---------------- */
@@ -421,11 +427,14 @@
     return '<div class="savebar" role="region" aria-label="Save changes"><div class="inner"><div class="msg" aria-live="polite">' +
       (statusMsg ? esc(statusMsg) : dirty ? "You have unpublished changes" : "No changes yet") +
       "<small>" + (STATIC
-        ? (dirty ? "Download data.json and upload it to GitHub to publish." : "Edit the tables below, then download data.json.")
+        ? ((GH && GH.ready())
+          ? (dirty ? "Save to send your changes to the site. Live for everyone in a minute or two." : "Edit the tables below, then save.")
+          : (dirty ? "Download data.json and upload it to GitHub to publish." : "Edit the tables below, then download data.json."))
         : (dirty ? "Only you can see them until you publish." : "Edit the tables below, then publish.")) + "</small></div>" +
       '<button type="button" class="btn ghost small" data-act="discard"' + (dirty && !busy ? "" : " disabled") + ">Discard changes</button>" +
+      ((STATIC && GH && GH.ready()) ? '<button type="button" class="btn ghost small" data-act="download"' + (dirty && !busy ? "" : " disabled") + ">Download instead</button>" : "") +
       '<button type="button" class="btn" data-act="publish"' + (dirty && !busy ? "" : " disabled") + ">" +
-      (busy ? "Publishing…" : STATIC ? "Download data.json" : "Publish changes") + "</button></div></div>";
+      (busy ? (STATIC ? "Saving…" : "Publishing…") : STATIC ? ((GH && GH.ready()) ? "Save to site" : "Download data.json") : "Publish changes") + "</button></div></div>";
   }
 
   var io = null;
@@ -541,6 +550,7 @@
     if (act === "drop-draft") { restoreDraft = null; try { sessionStorage.removeItem(DRAFT_KEY); } catch (x) {} render(); return; }
     if (act === "discard") { data = clone(served); statusMsg = ""; stash(); render(); return; }
     if (act === "publish") { publish(); return; }
+    if (act === "download") { downloadJson(); return; }
     if (act === "msg-wa") {
       if (!msg.body.trim()) { msg.note = "Type a message first."; render(); return; }
       openLink("https://wa.me/?text=" + encodeURIComponent(msg.body));
@@ -635,9 +645,38 @@
     statusMsg = "Downloaded data.json. Upload it to GitHub to publish.";
     render();
   }
+  function sameJson(a, b) {
+    try { return JSON.stringify(typeof a === "string" ? JSON.parse(a) : a) === JSON.stringify(typeof b === "string" ? JSON.parse(b) : b); }
+    catch (e) { return false; }
+  }
+  function saveToGitHub() {
+    var out = publishable(data);
+    var text = JSON.stringify(out, null, 1) + "\n";
+    busy = true; statusMsg = "Saving to GitHub…"; render();
+    GH.getFile("data.json").then(function (remote) {
+      // stop if someone else saved since this page loaded
+      if (remote && remote.sha !== dataSha && !sameJson(remote.text, served)) {
+        var e = new Error("changed"); e.code = "conflict"; throw e;
+      }
+      return GH.putText("data.json", text, "Update league data " + TODAY, remote ? remote.sha : null);
+    }).then(function (sha) {
+      dataSha = sha;
+      served = JSON.parse(text);
+      data = clone(served);
+      busy = false;
+      try { sessionStorage.removeItem(DRAFT_KEY); } catch (x) {}
+      statusMsg = "Saved. Everyone will see the changes in a minute or two.";
+      render();
+    }).catch(function (e) {
+      busy = false;
+      statusMsg = GH.explain(e);
+      stash();
+      render();
+    });
+  }
   function publish(retried) {
     if (busy) return;
-    if (STATIC) { downloadJson(); return; }
+    if (STATIC) { if (GH && GH.ready()) saveToGitHub(); else downloadJson(); return; }
     if (!artifactNs) { statusMsg = "Saving isn’t available in this view. Open the page in Claude to publish."; render(); return; }
     var out = publishable(data);
     try { sessionStorage.setItem(DRAFT_KEY, JSON.stringify(out)); } catch (x) {}
@@ -686,8 +725,17 @@
   if (inline) start(JSON.parse(inline.textContent));
   else {
     app.innerHTML = '<p class="wrap" style="padding-block:40px">Loading league data…</p>';
-    fetch("data.json", { cache: "no-store" })
-      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+    var fromPages = function () {
+      return fetch("data.json", { cache: "no-store" }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); });
+    };
+    var adminView = /admin/i.test(location.hash + location.search);
+    (adminView && GH && GH.ready()
+      ? GH.getFile("data.json").then(function (f) {
+          if (!f) return fromPages();
+          dataSha = f.sha;
+          return JSON.parse(f.text);
+        }).catch(fromPages)
+      : fromPages())
       .then(start)
       .catch(function () {
         app.innerHTML = '<p class="wrap" style="padding-block:40px">The league data couldn’t be loaded. Refresh the page to try again.</p>';
