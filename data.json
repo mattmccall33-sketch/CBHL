@@ -1,6 +1,6 @@
 {
  "season": "Fall 2026",
- "updated": "2026-10-27",
+ "updated": "2026-11-16",
  "rulebook": "CBHL_Official_Rulebook.pdf",
  "teams": [
   {
@@ -646,7 +646,7 @@
    "id": "p29",
    "name": "McCall, Matt",
    "g": 0,
-   "a": 0,
+   "a": 1,
    "pen": 0,
    "goalie": {
     "gp": 3,
